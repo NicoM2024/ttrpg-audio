@@ -14,11 +14,11 @@ Below is a list of the games the music was sourced from and their respective com
 * Tsukasa Saitoh
 * Tai Tomisawa
 
+*Dark Souls III: The Ringed City - FromSoftware (2017)*
+* Yuka Kitamura
+
 *Dark Souls III - FromSoftware (2016)*
 * Yuka Kitamura
 * Tsukasa Saitoh
 * Motoi Sakuraba
 * Nobuyoshi Suzuki
-
-*Dark Souls III: The Ringed City - FromSoftware (2017)*
-* Yuka Kitamura
