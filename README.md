@@ -15,7 +15,7 @@ Below is a list of the games the music was sourced from and their respective com
 
 *Elden Ring*
 * Yuka Kitamura
-* Tsukasa Saitoh
-* Shoi Miyazawa
-* Tai Tomisawa
 * Yoshimi Kudo
+* Shoi Miyazawa
+* Tsukasa Saitoh
+* Tai Tomisawa
