@@ -7,17 +7,17 @@ These are to be used as music for a private ttrpg gameplay setting, and are not 
 Below is a list of the games the music was sourced from and their respective composers:
 
 
-*Elden Ring - FromSoftware (2022)*
+***Elden Ring - FromSoftware (2022)***
 * Yuka Kitamura
 * Yoshimi Kudo
 * Shoi Miyazawa
 * Tsukasa Saitoh
 * Tai Tomisawa
 
-*Dark Souls III: The Ringed City - FromSoftware (2017)*
+***Dark Souls III: The Ringed City - FromSoftware (2017)***
 * Yuka Kitamura
 
-*Dark Souls III - FromSoftware (2016)*
+***Dark Souls III - FromSoftware (2016)***
 * Yuka Kitamura
 * Tsukasa Saitoh
 * Motoi Sakuraba
