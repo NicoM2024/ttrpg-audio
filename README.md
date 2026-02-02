@@ -7,12 +7,13 @@ These are to be used as music for a private ttrpg gameplay setting, and are not 
 Below is a list of the games the music was sourced from and their respective composers:
 
 
-**Dark Souls III**
+*Dark Souls III*
 * Yuka Kitamura
 * Tsukasa Saitoh
 * Motoi Sakuraba
 * Nobuyoshi Suzuki
-**Elden Ring**
+
+*Elden Ring*
 * Yuka Kitamura
 * Tsukasa Saitoh
 * Shoi Miyazawa
