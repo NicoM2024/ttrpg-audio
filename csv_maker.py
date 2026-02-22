@@ -29,7 +29,7 @@ def construct(includes):
                 url = f"https://github.com/{OWNER}/{REPO}/{BRANCH}/{file_path}"
                 
                 # Tags
-                tags = [game]
+                tags = ["raw", game]
                 
                 # Look at all folders in the path to see if any are music types
                 rel_path_from_game = os.path.relpath(root, f"Music/{game}").replace("\\", "/")
