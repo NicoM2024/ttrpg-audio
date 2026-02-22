@@ -168,8 +168,7 @@ def get_games(repo_files):
     games = []
     for f in repo_files:
         if f["path"].startswith("Music/") and len(f["path"].split("/")) == 2:
-            games.append(f["path"].split("/")[1])
-    print(games)
+            games.append(normalize_game_name(f["path"].split("/")[1]))
     return games
 
 def normalize_game_name(text):
