@@ -1,9 +1,10 @@
 import os
 import csv
+import urllib.parse
 
 OWNER = "NicoM2024"
-REPO = "ttrpg-music"
-BRANCH = "main"
+REPO = "ttrpg-audio"
+BRANCH = "raw/refs/heads/main"
 
 def construct(includes):
     
@@ -24,9 +25,10 @@ def construct(includes):
                     continue
                 
                 file_path = os.path.relpath(os.path.join(root, file), ".").replace("\\", "/")
+                file_path = urllib.parse.quote(file_path)
                 # Init info
                 title = os.path.splitext(file)[0]
-                url = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{BRANCH}/{file_path}"
+                url = f"https://github.com/{OWNER}/{REPO}/{BRANCH}/{file_path}"
                 tags = f"{game}|{music_type_tag}"
                 
                 rows.append([title, url, tags])
