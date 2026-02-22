@@ -6,6 +6,8 @@ These are to be used as music for a private ttrpg gameplay setting, and are not 
 
 Below is a list of the games the music was sourced from and their respective composers:
 
+***Hollow Knight: Gods & Knightmares - Team Cherry (2024)***
+* Christopher Larkin
 
 ***Elden Ring - FromSoftware (2022)***
 * Yuka Kitamura
@@ -16,6 +18,9 @@ Below is a list of the games the music was sourced from and their respective com
 
 ***Dark Souls III: The Ringed City - FromSoftware (2017)***
 * Yuka Kitamura
+
+***Hollow Knight - Team Cherry (2017)***
+* Christopher Larkin
 
 ***Dark Souls III - FromSoftware (2016)***
 * Yuka Kitamura
