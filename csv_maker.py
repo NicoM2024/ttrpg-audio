@@ -23,7 +23,7 @@ def get_all_repo_files():
 
     return data["tree"]
 
-def construct(includes, repo_files):
+def construct(includes, included_types, name_spec, repo_files):
 
     # Creates list of rows from the repo
     base_rows = []
@@ -46,6 +46,8 @@ def construct(includes, repo_files):
             continue
 
         title = os.path.splitext(parts[-1])[0]
+        if not name_spec.lower() in title.lower():
+            continue
 
         url = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/main/{file_path}"
 
@@ -54,10 +56,22 @@ def construct(includes, repo_files):
         for part in parts:
             if part.lower() in get_music_types():
                 tags.append(part.lower())
+        
+        valid = False
+        for t in included_types:
+            if t in tags:
+                valid = True
+                break;
+        if not valid:
+            continue
 
         tags_str = "|".join(tags)
 
         base_rows.append([title, url, tags_str])
+    
+    if not len(base_rows):
+        print("!No tracks fit the specifications. Written file will be empty!")
+        print("Writing to an existing file will only sort entries and refresh tags.\n")
     
     while True:
         try:
@@ -199,8 +213,40 @@ def parse_response(response, repo_files):
     valid = all(game in real_games for game in given_games)
             
     return valid, given_games
+
+def get_wanted_tags():
+    while True:
+        print("What kinds of music would you like to add?")
+        next_message = "Type and combination of "
+        music_types = get_music_types()
+        for i in range(len(music_types)):
+            if i != 0:
+                next_message += ", "
+            if i == len(music_types) - 1:
+                next_message += "or "
+            next_message += f"'{music_types[i].upper()}'"
+        next_message += " seperated by commas or type 'ALL' for all"
+        print(next_message)
+        response = input("\n")
+        if response.lower().strip() == "all":
+            return get_music_types()
+        choices = lower_array(strip_array(response.split(",")))
+        
+        valid = all(choice in get_music_types() for choice in choices)
+    
+        if not valid:
+            print("Atleast one of the types you entered is invalid\n")
+            continue
+        return choices
+    
+def get_name_specification():
+    print("Is there any specification for the tracks' name you'd like to add")
+    print("Only tracks which contain the entered text will be included (press 'ENTER' to ignore)")
+    return input("\n").strip()
     
 if __name__ == '__main__':
     all_repo_files = get_all_repo_files()
     user_input = get_input(all_repo_files)
-    construct(user_input, all_repo_files)
+    user_tags  = get_wanted_tags()
+    user_name_spec = get_name_specification()
+    construct(user_input, user_tags, user_name_spec, all_repo_files)
