@@ -23,10 +23,7 @@ def get_all_repo_files():
 
     return data["tree"]
 
-def construct(includes):
-    
-    # Get the files from github
-    repo_files = get_all_repo_files()
+def construct(includes, repo_files):
 
     # Creates list of rows from the repo
     base_rows = []
@@ -139,20 +136,20 @@ def get_tag_safe(tag_str, i):
         return ""
     return tags[i]
 
-def get_input():
+def get_input(repo_files):
     while True:
         print("Please enter the names of the games' music you would like to include seperated by commas.")
         print("For information on the available games, enter 'HELP'. For all games, enter 'ALL'")
         
         response = input("\n").strip()
         if response.lower() == 'help':
-            print_games(get_games())
+            print_games(get_games(repo_files))
             continue
     
         if response.lower() == 'all':
-            return lower_array(get_games())
+            return lower_array(get_games(repo_files))
         
-        includes = parse_response(response)
+        includes = parse_response(response, repo_files)
         if not includes[0]:
             print("The list of games you gave was invalid.")
             print("Make sure the names are correct, and they are seperated by commas with no spacing in between names\n")
@@ -167,13 +164,14 @@ def print_games(games):
         print(f" - {game}")
     print()
 
-def get_games():
-    to_return = []
-    
-    for item in os.listdir("Music"):
-        to_return.append(item)
-
-    return to_return
+def get_games(repo_files):
+    games = []
+    for f in repo_files:
+        if f["type"] == "dir" and f["path"].startswith("Music/"):
+            rel_path = f["path"][len("Music/"):]
+            if "/" not in rel_path:
+                games.append(f["name"])
+    return games
 
 def normalize_game_name(text):
     # Normalize Unicode characters
@@ -196,14 +194,15 @@ def lower_array(arr):
 def strip_array(arr):
     return [item.strip() for item in arr]
     
-def parse_response(response):
+def parse_response(response, repo_files):
     given_games = [normalize_game_name(g) for g in strip_array(lower_array(response.split(",")))]
-    real_games = [normalize_game_name(n) for n in get_games()]
+    real_games = [normalize_game_name(n) for n in get_games(repo_files)]
     
     valid = all(game in real_games for game in given_games)
             
     return valid, given_games
     
 if __name__ == '__main__':
-    user_input = get_input()
-    construct(user_input)
+    all_repo_files = get_all_repo_files()
+    user_input = get_input(all_repo_files)
+    construct(user_input, all_repo_files)
