@@ -8,7 +8,7 @@ BRANCH = "raw/refs/heads/main"
 
 def construct(includes):
     
-    rows = []
+    base_rows = [] # Rows in the repo
     for game in os.listdir("Music"):
         if not game.lower() in includes:
             continue
@@ -41,7 +41,7 @@ def construct(includes):
                 
                 tags_str = "|".join(tags)
                 
-                rows.append([title, url, tags_str])
+                base_rows.append([title, url, tags_str])
     
     while True:
         try:
@@ -52,28 +52,30 @@ def construct(includes):
 
             # Read existing CSV
             existing_rows = []
-            existing_urls_titles = {}  # url -> title
-            
+
             if os.path.exists(csv_path):
                 with open(csv_path, "r", encoding="utf-8-sig", newline="") as f:
                     reader = csv.DictReader(f)
                     for row in reader:
                         existing_rows.append([row['title'], row['url'], row['tags']])
-                        existing_urls_titles[row['url']] = row['title']
+
+            # Track all seen (title, url) pairs
+            existing_pairs = set((normalize_title(row[0]), normalize_url(row[1])) for row in existing_rows)
+
+            rows_to_write = []
+
+            for title, url, tags in base_rows:  # only iterate new scan rows
+                pair = (normalize_title(title), normalize_url(url))
+                if pair not in existing_pairs:
+                    rows_to_write.append([title, url, tags])
+                    existing_pairs.add(pair)  # mark as seen immediately to avoid duplicates in this run
+
+            # Combine
+            all_rows = existing_rows + rows_to_write
             
             original_urls_titles = {}
-            for title, url, tags in rows:
+            for title, url, tags in base_rows:
                 original_urls_titles[url] = title
-
-            # Merge rows
-            rows_to_write = []
-            for row in rows:  # row = [title, url, tags]
-                title, url, tags = row
-                if not url in existing_urls_titles or title != existing_urls_titles[url]:
-                    rows_to_write.append([title, url, tags])
-
-            # Combine with existing rows
-            all_rows = existing_rows + rows_to_write
             
             for i in range(len(all_rows)):
                 title, url, tags = all_rows[i]
@@ -106,6 +108,12 @@ def construct(includes):
             print("\n!ERROR!\nCouldn't modify the file because it is in use by another process.")
             print("Try closing the file and trying again.")
             return
+        
+def normalize_title(title):
+    return title.strip()
+
+def normalize_url(url):
+    return urllib.parse.unquote(url).strip()
     
 def get_tag_safe(tag_str, i):
     if not tag_str:
