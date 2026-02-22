@@ -15,23 +15,33 @@ def construct(includes):
         
         # Tag it with origin game
         for root, dirs, files in os.walk(f"Music/{game}"):
-            
-            # Tag it with type
-            music_type_tag = os.path.basename(root).lower() if os.path.basename(root).lower() in get_music_types() else ""
-            
             for file in files:
-                
                 if not file.lower().endswith((".mp3", ".wav", ".ogg")):
                     continue
-                
+                # Path
                 file_path = os.path.relpath(os.path.join(root, file), ".").replace("\\", "/")
                 file_path = urllib.parse.quote(file_path)
-                # Init info
-                title = os.path.splitext(file)[0]
-                url = f"https://github.com/{OWNER}/{REPO}/{BRANCH}/{file_path}"
-                tags = f"{game}|{music_type_tag}"
                 
-                rows.append([title, url, tags])
+                # Title
+                title = os.path.splitext(file)[0]
+                
+                # URL
+                url = f"https://github.com/{OWNER}/{REPO}/{BRANCH}/{file_path}"
+                
+                # Tags
+                tags = [game]
+                
+                # Look at all folders in the path to see if any are music types
+                rel_path_from_game = os.path.relpath(root, f"Music/{game}").replace("\\", "/")
+                if rel_path_from_game != ".":  # skip the game root folder itself
+                    parts = rel_path_from_game.split("/")
+                    for part in parts:
+                        if part.lower() in get_music_types():
+                            tags.append(part.lower())
+                
+                tags_str = "|".join(tags)
+                
+                rows.append([title, url, tags_str])
     
     while True:
         try:
@@ -111,5 +121,5 @@ def parse_response(response):
     return valid, given_games
     
 if __name__ == '__main__':
-    includes = get_input()
-    construct(includes)
+    i = get_input()
+    construct(i)
